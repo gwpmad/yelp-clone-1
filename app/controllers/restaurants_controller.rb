@@ -26,6 +26,13 @@ class RestaurantsController < ApplicationController
     redirect_to '/restaurants'
   end
 
+  def destroy
+    @restaurant = Restaurant.find(params[:id])
+    @restaurant.destroy
+    flash[:notice] = 'Restaurant deleted successfully'
+    redirect_to '/restaurants'
+  end
+
   def restaurant_params
     #only allow the field labelled 'name' to be accepted by the form
     params.require(:restaurant).permit(:name)

@@ -3,6 +3,8 @@
     <h2><%= link_to restaurant.name, restaurant_path(restaurant) %></h2>
     <!-- link_to take first argument of restaurant name displayed as text, and second argument of restaurant's path  -->
     <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %>
+    <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %>
+    <!-- Above line 'gets' the restaurant (using restaurant_path and its id) then uses the delete method -->
   <% end %>
 <% else %>
   <h1>No restaurants yet</h1>
