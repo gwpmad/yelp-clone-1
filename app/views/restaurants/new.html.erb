@@ -1,0 +1,6 @@
+<%= form_for @restaurant do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <%= f.submit %>
+  <!-- this should pass it to RestaurantsController's create method, which itself contains a Restaurant.create method. -->
+<% end %>
