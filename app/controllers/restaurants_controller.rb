@@ -1,4 +1,7 @@
 class RestaurantsController < ApplicationController
+  #checks user is logged in before performing an action, except for index and show
+  before_action :authenticate_user!, :except => [:index, :show]
+
   def index
     @restaurants = Restaurant.all
   end
