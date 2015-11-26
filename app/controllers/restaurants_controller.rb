@@ -3,9 +3,13 @@ class RestaurantsController < ApplicationController
     @restaurants = Restaurant.all
   end
 
-  def create
-    @restaurant = Restaurant.create(restaurant_params)
-    redirect_to '/restaurants'
+  def create #splitting Restaurant.create into its component parts:
+    @restaurant = Restaurant.new(restaurant_params)
+    if @restaurant.save
+      redirect_to restaurants_path
+    else
+      render 'new'
+    end
   end
 
   def new
