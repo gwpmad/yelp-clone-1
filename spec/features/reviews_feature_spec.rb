@@ -50,4 +50,16 @@ feature 'reviewing' do
       expect(Review.count).to eq 0
     end
   end
+
+  scenario 'cannot delete others reviews' do
+    sign_up
+    click_link 'Delete KFC review'
+    expect(page).to have_content("so so")
+    expect(page).to have_content("You cannot delete others\' reviews")
+  end
+
+  scenario 'cannot delete others reviews' do
+    click_link 'Delete KFC review'
+    expect(page).not_to have_content("so so")
+  end
 end
