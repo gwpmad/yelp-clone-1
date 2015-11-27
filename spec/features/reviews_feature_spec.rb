@@ -58,8 +58,14 @@ feature 'reviewing' do
     expect(page).to have_content("You cannot delete others\' reviews")
   end
 
-  scenario 'cannot delete others reviews' do
+  scenario 'can delete your own reviews' do
     click_link 'Delete KFC review'
     expect(page).not_to have_content("so so")
+  end
+
+  scenario 'displays an average rating for all reviews' do
+    leave_review('So so', 3)
+    leave_review('Great', 5)
+    expect(page).to have_content('Average rating: 4')
   end
 end
