@@ -30,7 +30,11 @@ class RestaurantsController < ApplicationController
 
   def update
     @restaurant = Restaurant.find(params[:id])
-    @restaurant.update(restaurant_params)
+    if @restaurant.user_id == current_user.id
+      @restaurant.update(restaurant_params)
+    else
+      flash[:notice] = 'You did not create this restaurant'
+    end
     redirect_to '/restaurants'
   end
 

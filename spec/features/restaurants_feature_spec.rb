@@ -64,7 +64,12 @@ feature 'restaurants' do
   end
 
   context 'editing restaurants' do
-    before { Restaurant.create name: 'KFC' }
+    before do
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'KFC'
+      click_button 'Create Restaurant'
+    end
 
     scenario 'let a user edit a restaurant' do
       visit '/restaurants'
@@ -96,6 +101,16 @@ feature 'restaurants' do
       Restaurant.create(name: "Another user's restaurant")
       visit '/restaurants'
       click_link "Delete Another user's restaurant"
+      expect(page).to have_content "Another user's restaurant"
+      expect(page).to have_content 'You did not create this restaurant'
+    end
+
+    scenario 'user cannot edit other users\'s restaurants' do
+      Restaurant.create(name: "Another user's restaurant")
+      visit '/restaurants'
+      click_link "Edit Another user's restaurant"
+      fill_in 'Name', with: 'Kentucky Fried Chicken'
+      click_button 'Update Restaurant'
       expect(page).to have_content "Another user's restaurant"
       expect(page).to have_content 'You did not create this restaurant'
     end
