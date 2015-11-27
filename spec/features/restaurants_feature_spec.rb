@@ -8,7 +8,7 @@ feature 'restaurants' do
     fill_in('Password confirmation', with: 'testtest')
     click_button('Sign up')
   end
-  
+
   context 'no restaurants have been added' do
     scenario 'should display a prompt to add a restaurant' do
       visit '/restaurants'
@@ -78,13 +78,26 @@ feature 'restaurants' do
 
   context ('deleting restaurants') do
 
-    before {Restaurant.create name: 'KFC'}
+    before do
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'KFC'
+      click_button 'Create Restaurant'
+    end
 
     scenario 'removes a restaurant when a user clicks a delete link' do
       visit '/restaurants'
       click_link 'Delete KFC'
       expect(page).not_to have_content 'KFC'
       expect(page).to have_content 'Restaurant deleted successfully'
+    end
+
+    scenario 'user cannot delete other users\'s restaurants' do
+      Restaurant.create(name: "Another user's restaurant")
+      visit '/restaurants'
+      click_link "Delete Another user's restaurant"
+      expect(page).to have_content "Another user's restaurant"
+      expect(page).to have_content 'You did not create this restaurant'
     end
   end
 end
